@@ -1,0 +1,313 @@
+﻿@page
+@model TwitchBot.Pages.Config.VariablesModel
+@{
+    ViewData["Title"] = "Configurations - Variables";
+}
+@{
+    if (Model.SuccessfulSave)
+    {
+        <div class="alert alert-success" role="alert">
+            Changes Successfully Saved! 
+        </div>
+        <div class="alert alert-warning" role="alert">
+            You must restart the app for the new configurations to take effect.
+        </div>
+    }
+}
+<h1>Configurations - Variables</h1>
+<form method="post">
+    <h4>General</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Global Game Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="GlobalGamesTimer" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Mods</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="BotMods" class="form-control" rows="@Model.BotMods.Split('\n').Length  - 1"></textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Player Names</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="PlayerNames" class="form-control" rows="@Model.PlayerNames.Split('\n').Length  - 1"></textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Games</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="BotGames" class="form-control" rows="@Model.BotGames.Split('\n').Length  - 1"></textarea>
+        </div>
+    </div>
+    <hr />
+    <h4>Loyalty System</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Tick Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="LoyaltyTickTimer" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Reward Per Tick</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="LoyaltyPointPerTick" class="form-control" />
+        </div>
+    </div>
+    <hr />
+    <h4>Raffle</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Stop Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RaffleStopMins" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Ticket Cost</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RaffleTicketCost" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Max Ticket Allowed</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RaffleMaxTicketAllowed" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Min Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RaffleMinReward" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Max Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RaffleMaxReward" class="form-control" />
+        </div>
+    </div>
+    <hr />
+    <h4>Play To Win</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Stop Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="PlayToWinStopMins" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Min Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="PlayToWinMinReward" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Max Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="PlayToWinMaxReward" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Games</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="PlayToWinGames" class="form-control" rows="@Model.PlayToWinGames.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <hr />
+    <h4>Battle</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Stop Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="BattleStopMins" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Min Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="BattleMinReward" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Max Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="BattleMaxReward" class="form-control" />
+        </div>        
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Games</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="BattleGames" class="form-control" rows="@Model.BattleGames.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <hr />
+    <h4>Random Drops</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Stop Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RandomDropStopMins" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Min Points</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RandomDropMinPoints" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Max Percentage</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RandomDropMaxPercentage" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Avoided Chatters</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="AvoidedChatters" class="form-control" rows="@Model.AvoidedChatters.Split('\n').Length  - 1"></textarea>
+        </div>
+    </div>
+    <hr />
+    <h4>First To Win</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Stop Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="FirstToWinStopMins" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Min Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="FirstToWinMinReward" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Max Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="FirstToWinMaxReward" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Games</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="FirstToWinGames" class="form-control" rows="@Model.FirstToWinGames.Split('\n').Length  - 1"></textarea>
+        </div>
+    </div>
+    <hr />
+    <h4>Gamble</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Default Amount</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="GambleDefaultAmount" class="form-control" />
+        </div>
+    </div>
+    <hr />
+    <h4>Slots</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Entry Amount</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="SlotsEntryAmount" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="SlotsReward" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Icons</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="SlotsIcons" class="form-control" rows="@Model.SlotsIcons.Split('\n').Length  - 1"></textarea>
+        </div>
+    </div>
+    <hr />
+    <h4>Dailyspin</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Min Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="DailySpinMinReward" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Max Reward</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="DailySpinMaxReward" class="form-control" />
+        </div>
+    </div>
+    <hr />
+    <h4>Roll Dice</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Stop Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RollADiceStopTimer" class="form-control" />
+        </div>
+    </div>
+    <hr />
+    <h4>AI Quotes</h4>
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Timer</label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="RandomAIQuoteTimer" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <label class="control-label">Quotes</label>
+        </div>
+        <div class="col-md-11">
+            <textarea asp-for="AIQuotes" class="form-control" rows="@Model.AIQuotes.Split('\n').Length  - 1"></textarea>
+        </div>
+    </div>
+    <hr />
+    <div class="row align-items-center">
+        <input type="submit" class="btn btn-primary" value="Submit Changes">
+    </div>
+</form>

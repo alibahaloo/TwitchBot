@@ -1,0 +1,1076 @@
+﻿@page
+@model TwitchBot.Pages.Config.MessagesModel
+@{
+    ViewData["Title"] = "Configurations - Messages";
+}
+@{
+    if (Model.SuccessfulSave)
+    {
+        <div class="alert alert-success" role="alert">
+            Changes Successfully Saved!
+        </div>
+    }
+}
+<h1>Configurations - Messages</h1>
+<form method="post">
+    <h4>General</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Cant start new game</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="CantStartNewGame" class="form-control" rows="@Model.CantStartNewGame.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">No Game Running</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="NoGameRunning" class="form-control" rows="@Model.NoGameRunning.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Discord Channel</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="DiscordChannel" class="form-control" rows="@Model.DiscordChannel.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Command List</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="CommandsList" class="form-control" rows="@Model.CommandsList.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <hr />
+    <h4>Loyalty System</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">User Points</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="UserPointBalance" class="form-control" rows="@Model.UserPointBalance.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+          
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.UserPointBalance("User",100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Transfer Points Invalid Command</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="TransferPointsInvalidCommand" class="form-control" rows="@Model.TransferPointsInvalidCommand.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+          
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.TransferPointsInvalidCommand("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Transfer Points Invalid Number</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="TransferPointsInvalidNumber" class="form-control" rows="@Model.TransferPointsInvalidNumber.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+           
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.TransferPointsInvalidNumber("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Transfer Points Invalid User</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="TransferPointsInvalidToSelf" class="form-control" rows="@Model.TransferPointsInvalidToSelf.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+           
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.TransferPointsInvalidToSelf("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Not Enough Points</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="TransferPointsInvalidNotEnoughPoints" class="form-control" rows="@Model.TransferPointsInvalidNotEnoughPoints.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.TransferPointsInvalidNotEnoughPoints("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Transfer Success</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="TransferPointsSuccess" class="form-control" rows="@Model.TransferPointsSuccess.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.TransferPointsSuccess("User",100,"Another-User")</span>
+        </div>
+    </div>
+    <hr />
+    <h4>Raffle</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Max Ticket to buy</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleMaxTicketsBuy" class="form-control" rows="@Model.RaffleMaxTicketsBuy.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RaffleMaxTicketsBuy("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Max Ticket Reached</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleMaxTicketReached" class="form-control" rows="@Model.RaffleMaxTicketReached.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RaffleMaxTicketReached("User",10)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Max Ticket Reached</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleMaxTicketReached" class="form-control" rows="@Model.RaffleMaxTicketReached.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RaffleMaxTicketReached("User",10)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">No One Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleNoOneJoined" class="form-control" rows="@Model.RaffleNoOneJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Started</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleStartGame" class="form-control" rows="@Model.RaffleStartGame.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RaffleStartGame(100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Finished</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleStopGame" class="form-control" rows="@Model.RaffleStopGame.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RaffleStopGame("User", 100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Invalid Buy Command</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleInvalidBuyCommand" class="form-control" rows="@Model.RaffleInvalidBuyCommand.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Not Enough Points</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleNotEnoughPoints" class="form-control" rows="@Model.RaffleNotEnoughPoints.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RaffleNotEnoughPoints("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Success Buy</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RaffleBuySuccess" class="form-control" rows="@Model.RaffleBuySuccess.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RaffleBuySuccess("User", 100)</span>
+        </div>
+    </div>
+    <hr />
+    <h4>Daily Spin</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Need to Wait</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="DailySpinNeedToWait" class="form-control" rows="@Model.DailySpinNeedToWait.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.DailySpinNeedToWait("User", 100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Start Game</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="DailySpinStartGame" class="form-control" rows="@Model.DailySpinStartGame.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.DailySpinStartGame("User", 100)</span>
+        </div>
+    </div>
+    <hr />
+    <h4>Battle</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Title</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleGenerateRandomTitle" class="form-control" rows="@Model.BattleGenerateRandomTitle.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleGenerateRandomTitle(0, 100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">First Player Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleFirstPlayerJoined" class="form-control" rows="@Model.BattleFirstPlayerJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleFirstPlayerJoined("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Player Already Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleAlreadyJoined" class="form-control" rows="@Model.BattleAlreadyJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleAlreadyJoined("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Second Player Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleSecondPlayerJoined" class="form-control" rows="@Model.BattleSecondPlayerJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleSecondPlayerJoined("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Finished</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleBattleFinished" class="form-control" rows="@Model.BattleBattleFinished.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleBattleFinished("User", 100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">No One Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleNoOneJoined" class="form-control" rows="@Model.BattleNoOneJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleNoOneJoined()</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">No Second Player Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleNoSecondPlayerJoined" class="form-control" rows="@Model.BattleNoSecondPlayerJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleNoSecondPlayerJoined()</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Player Won</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleGameStopYouWon" class="form-control" rows="@Model.BattleGameStopYouWon.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleGameStopYouWon("User", 100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Bot Won</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="BattleGameStopBotWon" class="form-control" rows="@Model.BattleGameStopBotWon.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.BattleGameStopBotWon()</span>
+        </div>
+    </div>
+    <hr />
+    <h4>First To Win</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Title</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="FirstToWinGenerateRandomTitle" class="form-control" rows="@Model.FirstToWinGenerateRandomTitle.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.FirstToWinGenerateRandomTitle(0,100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Finished</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="FirstToWinGameStop" class="form-control" rows="@Model.FirstToWinGameStop.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.FirstToWinGameStop("User",100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">No One Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="FirstToWinNoOneJoined" class="form-control" rows="@Model.FirstToWinNoOneJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.FirstToWinNoOneJoined()</span>
+        </div>
+    </div>
+    <hr />
+    <h4>Gamble</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Invalid Command</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GamblePlayInvalidCommand" class="form-control" rows="@Model.GamblePlayInvalidCommand.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GamblePlayInvalidCommand("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Invalid Percentage</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GamblePlayInvalidPercentageCommand" class="form-control" rows="@Model.GamblePlayInvalidPercentageCommand.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GamblePlayInvalidPercentageCommand("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Greater than 100%</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GamblePlayInvalidPercentageMoreThanHundred" class="form-control" rows="@Model.GamblePlayInvalidPercentageMoreThanHundred.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GamblePlayInvalidPercentageMoreThanHundred("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Invalid Number</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GamblePlayInvalidNumberCommand" class="form-control" rows="@Model.GamblePlayInvalidNumberCommand.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GamblePlayInvalidNumberCommand("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Negative Number</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GamblePlayInvalidNegativeNumber" class="form-control" rows="@Model.GamblePlayInvalidNegativeNumber.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GamblePlayInvalidNegativeNumber("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Less Than Default</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GamblePlayInvalidLessThanDefault" class="form-control" rows="@Model.GamblePlayInvalidLessThanDefault.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GamblePlayInvalidLessThanDefault("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Not Enough Points</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GamblePlayNotEnoughPoints" class="form-control" rows="@Model.GamblePlayNotEnoughPoints.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GamblePlayNotEnoughPoints("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Lost</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GambleLost" class="form-control" rows="@Model.GambleLost.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GambleLost("User",100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Won</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="GambleWon" class="form-control" rows="@Model.GambleWon.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.GambleWon("User",100)</span>
+        </div>
+    </div>
+    <hr />
+    <h4>Random Drops</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Owner Grabbed</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RandomDropOwnerGrabbed" class="form-control" rows="@Model.RandomDropOwnerGrabbed.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RandomDropOwnerGrabbed("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Chatter Grabbed</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RandomDropChatterGrabbed" class="form-control" rows="@Model.RandomDropChatterGrabbed.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RandomDropChatterGrabbed("User",100, "Owner")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">No One Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RandomDropNoOneJoined" class="form-control" rows="@Model.RandomDropNoOneJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RandomDropNoOneJoined()</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Start</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RandomDropStartGame" class="form-control" rows="@Model.RandomDropStartGame.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RandomDropStartGame("User", 100)</span>
+        </div>
+    </div>
+    <hr />
+    <h4>Roll Dice</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Invalid Command</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceInvalidCommand" class="form-control" rows="@Model.RollDiceInvalidCommand.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceInvalidCommand("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Invalid Number</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceInvalidCommandNumber" class="form-control" rows="@Model.RollDiceInvalidCommandNumber.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceInvalidCommandNumber("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Less Than Default</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceInvalidCommandLessThanDefault" class="form-control" rows="@Model.RollDiceInvalidCommandLessThanDefault.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceInvalidCommandLessThanDefault("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Not Enough Points</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceNotEnoughPoints" class="form-control" rows="@Model.RollDiceNotEnoughPoints.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceNotEnoughPoints("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Against Yourself</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceInvalidCommandAgainstYourself" class="form-control" rows="@Model.RollDiceInvalidCommandAgainstYourself.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceInvalidCommandAgainstYourself("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Not Enough Points</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceNotEnoughPointOpponent" class="form-control" rows="@Model.RollDiceNotEnoughPointOpponent.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceNotEnoughPointOpponent("User","Opponent")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Start With Opponent</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceGameStartWithOpponent" class="form-control" rows="@Model.RollDiceGameStartWithOpponent.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceGameStartWithOpponent("User","Opponent",100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Open Game</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceGameStartOpen" class="form-control" rows="@Model.RollDiceGameStartOpen.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceGameStartOpen("User",100)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Against Yourself</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RolLDicePlayAgainstYourself" class="form-control" rows="@Model.RolLDicePlayAgainstYourself.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RolLDicePlayAgainstYourself("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Not The Selected Opponent</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RolLDiceNotTheSelectedOpponent" class="form-control" rows="@Model.RolLDiceNotTheSelectedOpponent.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RolLDiceNotTheSelectedOpponent("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Not Enough Points</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDicNotEnoughPoint" class="form-control" rows="@Model.RollDicNotEnoughPoint.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDicNotEnoughPoint("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Draw</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceDraw" class="form-control" rows="@Model.RollDiceDraw.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceDraw()</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Finished</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceStopGame" class="form-control" rows="@Model.RollDiceStopGame.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceStopGame("User-A",4,"User-B",2,"User-A",2)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Finished with Bot</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RolLDiceStopGameWithBot" class="form-control" rows="@Model.RolLDiceStopGameWithBot.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RolLDiceStopGameWithBot("User-A",4,2,"User-A")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Bot with No Player</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="RollDiceNoPlayerJoined" class="form-control" rows="@Model.RollDiceNoPlayerJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.RollDiceNoPlayerJoined()</span>
+        </div>
+    </div>
+    <hr />
+    <h4>Slots</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Not Enough Points</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="SlotsNotEnoughPoints" class="form-control" rows="@Model.SlotsNotEnoughPoints.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.SlotsNotEnoughPoints("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Win</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="SlotsWin" class="form-control" rows="@Model.SlotsWin.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.SlotsWin("User","X","X","X")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Win</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="SlotsLost" class="form-control" rows="@Model.SlotsLost.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.SlotsLost("User","X","Y","X")</span>
+        </div>
+    </div>
+    <hr />
+    <div class="row align-items-center">
+        <input type="submit" class="btn btn-primary" value="Submit Changes">
+    </div>
+</form>

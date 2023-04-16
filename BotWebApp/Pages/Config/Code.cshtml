@@ -1,0 +1,49 @@
+﻿@page
+@model TwitchBot.Pages.Config.CodeModel
+@{
+    ViewData["Title"] = "Configurations - Auth Tokens";
+}
+@{
+    if (Model.CodeCaptured)
+    {
+        <div class="alert alert-success" role="alert">
+            Code captured -- Auth Tokens Saved.
+        </div>
+    }
+
+    if (Model.Error != string.Empty)
+    {
+        <div class="alert alert-danger" role="alert">
+            Errors occured while trying to generate Auth Tokens <br>
+            @Model.Error
+        </div>
+    }
+}
+<h1>Configurations - Auth Tokens</h1>
+<p>The bot service requires <a href="https://dev.twitch.tv/docs/authentication/#user-access-tokens">User Access Token</a> from Twitch to perform its functionalities.</p>
+<p>Use this page to check the current status of Bot's Auth Tokens and generate new ones if needed</p>
+<hr />
+<div class="row align-items-center">
+    <div class="col-md-1">
+        <label class="control-label">Status:</label>
+    </div>
+    @{
+        if (Model.IsTokenValid)
+        {
+            <div class="col-md-10">
+                <span class="alert-success">Valid Auth Tokens</span>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-2">
+                <span class="alert-warning">Invalid Auth Tokens</span>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-primary" href=@Model.CodeLink>
+                    Generate New Tokens
+                </a>
+            </div>            
+        }
+    }
+</div>
