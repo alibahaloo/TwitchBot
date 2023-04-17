@@ -4,6 +4,11 @@ using TwitchBot.Data;
 
 namespace TwitchBot.Bot
 {
+    public class Response
+    {
+        public string Result { get; set; } = string.Empty;
+        public List<string> Errors { get; set; } = new List<string>();
+    }
     public class TwitchAuth
     {
         private readonly IServiceProvider _serviceProvider;
@@ -14,22 +19,31 @@ namespace TwitchBot.Bot
             _serviceProvider = serviceProvider;
             _logger = logger;
         }
-        public async Task<string> GetAccessToken()
+        public async Task<Response> GetAccessToken()
         {
+            Response response = new();
+
             var _context = _serviceProvider.GetRequiredService<ApplicationDbContext>();
             var record = await _context.TwitchCodes.FirstOrDefaultAsync();
 
             if (record == null)
             {
                 _logger.LogCritical(BotConfigurations.Log("GetAccessToken", "No Records Found!"));
-                return string.Empty;
+                response.Errors.Add("Error: No Records Found!");
+                return response;
             }
 
             //Validate the accessToken
-            if (await ValidateAccessToken(record.AccessToken)) return record.AccessToken;
+            if (await ValidateAccessToken(record.AccessToken)) //return record.AccessToken;
+            {
+                response.Result = record.AccessToken;
+            } else
+            {
+                //we get here if accessToken is not valid, then get a new one using refresh
+                response = await RefreshAccessToken(record.RefreshToken);
+            }
 
-            //we get here if accessToken is not valid, then get a new one using refresh
-            return await RefreshAccessToken(record.RefreshToken);
+            return response;
         }
         private async Task SaveToken(string accessToken, string refreshToken, string code = "")
         {
@@ -54,12 +68,16 @@ namespace TwitchBot.Bot
 
             await _context.SaveChangesAsync();
         }
-        public async Task<string> CreateAccessToken(string code)
+        public async Task<Response> CreateAccessToken(string code)
         {
+            Response response = new();
+
             //Check for resrouces
-            if (TwitchInfo.client_id == string.Empty) { return "Error: Missing client_id"; }
-            if (TwitchInfo.client_secret == string.Empty) { return "Error: Missing client_secret"; }
-            if (TwitchInfo.redirect_uri == string.Empty) { return "Error: Missing redirect_uri"; }
+            if (TwitchInfo.client_id == string.Empty) response.Errors.Add("Error: Missing client_id");
+            if (TwitchInfo.client_secret == string.Empty) response.Errors.Add("Error: Missing client_secret");
+            if (TwitchInfo.redirect_uri == string.Empty) response.Errors.Add("Error: Missing redirect_uri");
+            
+            if (response.Errors.Any()) { return response; }
 
             HttpClient httpClient = new();
 
@@ -72,36 +90,44 @@ namespace TwitchBot.Bot
                     new KeyValuePair<string, string>("code", code),
                 });
 
-            var response = await httpClient.PostAsync(BotConfigurations.TwitchTokenEndpoint, requestContent);
+            var httpResponse = await httpClient.PostAsync(BotConfigurations.TwitchTokenEndpoint, requestContent);
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+            var body = JsonConvert.DeserializeObject<TokenDTO>(responseContent.ToString());
 
+            if (body == null)
+            {
+                _logger.LogError(BotConfigurations.Log("CreateAccessToken", "responseContent is null"));
+                response.Errors.Add("responseContent is null");
+                return response;
+            }
             try
             {
-                response.EnsureSuccessStatusCode();
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var body = JsonConvert.DeserializeObject<TokenDTO>(responseContent.ToString());
+                httpResponse.EnsureSuccessStatusCode();
 
-                if (body != null)
-                {
-                    //Record access token and refresh token in DB
-                    await SaveToken(body.access_token, body.refresh_token, code);
-                    return body.access_token;
-                }
-                else
-                {
-                    _logger.LogError(BotConfigurations.Log("CreateAccessToken", "responseContent is null"));
-                    return string.Empty;
-                }
+                //Record access token and refresh token in DB
+                await SaveToken(body.access_token, body.refresh_token, code);
+                response.Result = body.access_token;
 
+                return response;
             }
             catch (Exception e)
             {
-                _logger.LogError(BotConfigurations.Log("CreateAccessToken", e.Message));
-                return string.Empty;
+                _logger.LogError(BotConfigurations.Log("CreateAccessToken", $"{e.Message} : {body.message}"));
+                response.Errors.Add(BotConfigurations.Log("CreateAccessToken", $"{e.Message} : {body.message}"));
+                return response;
             }
             finally { httpClient.Dispose(); }
         }
-        private async Task<string> RefreshAccessToken(string refreshToken)
+        private async Task<Response> RefreshAccessToken(string refreshToken)
         {
+            Response response = new();
+
+            //Check for resrouces
+            if (TwitchInfo.client_id == string.Empty) response.Errors.Add("Error: Missing client_id") ;
+            if (TwitchInfo.client_secret == string.Empty) response.Errors.Add("Error: Missing client_secret");
+
+            if (response.Errors.Any()) { return response; }
+
             HttpClient httpClient = new();
 
             var requestContent = new FormUrlEncodedContent(new[]
@@ -112,31 +138,33 @@ namespace TwitchBot.Bot
                     new KeyValuePair<string, string>("refresh_token", refreshToken),
                 });
 
-            var response = await httpClient.PostAsync(BotConfigurations.TwitchTokenEndpoint, requestContent);
+            var httpResponse = await httpClient.PostAsync(BotConfigurations.TwitchTokenEndpoint, requestContent);
+            var responseContent = await httpResponse.Content.ReadAsStringAsync();
+            var body = JsonConvert.DeserializeObject<TokenDTO>(responseContent.ToString());
+
+            if (body == null)
+            {
+                _logger.LogError(BotConfigurations.Log("RefreshAccessToken", "responseContent is null"));
+                response.Errors.Add("responseContent is null");
+                return response;
+            }
 
             try
             {
-                response.EnsureSuccessStatusCode();
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var body = JsonConvert.DeserializeObject<TokenDTO>(responseContent.ToString());
+                httpResponse.EnsureSuccessStatusCode();
 
-                if (body != null)
-                {
-                    //Record access token and refresh token in DB
-                    await SaveToken(body.access_token, body.refresh_token);
-                    return body.access_token;
-                }
-                else
-                {
-                    _logger.LogError(BotConfigurations.Log("RefreshAccessToken", "responseContent is null"));
-                    return string.Empty;
-                }
+                //Record access token and refresh token in DB
+                await SaveToken(body.access_token, body.refresh_token);
+                response.Result = body.access_token;
+
+                return response;
             }
             catch (Exception e)
             {
                 //Invalid RefreshToken
-                _logger.LogCritical(BotConfigurations.Log("RefreshAccessToken", $"Need new AccessToken + RefreshToken : {e.Message}"));
-                return string.Empty;
+                _logger.LogCritical(BotConfigurations.Log("RefreshAccessToken", $"{e.Message} : {body.message}"));
+                response.Errors.Add(BotConfigurations.Log("RefreshAccessToken", $"{e.Message} : {body.message}"));
+                return response;
             }
             finally { httpClient.Dispose(); }
         }

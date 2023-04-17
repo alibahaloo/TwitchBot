@@ -147,6 +147,6 @@
   </data>
   <data name="scope" xml:space="preserve">
     <value>moderator:read:chatters</value>
-    <comment>Used for Twitch API: Must be from Twitch Developer Console registered app (https://dev.twitch.tv/console/apps)</comment>
+    <comment>Used for Twitch API: To get code which is used to get Auth Tokens</comment>
   </data>
 </root>

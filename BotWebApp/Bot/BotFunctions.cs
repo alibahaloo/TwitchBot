@@ -121,12 +121,12 @@ namespace TwitchBot.Bot
         }
         public async Task<List<string>?> GetCurrentChatters()
         {
-            string accessToken = await _twitchAuth.GetAccessToken();
+            var accessToken = await _twitchAuth.GetAccessToken();
 
-            if (accessToken == string.Empty) return null;
+            if (accessToken.Errors.Any()) return null;
 
             HttpClient httpClient = new();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken.Result);
             httpClient.DefaultRequestHeaders.Add("Client-Id", TwitchInfo.client_id);
 
             UriBuilder builder = new(BotConfigurations.TwitchChatterEndpoint)

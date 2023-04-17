@@ -11,11 +11,17 @@
         </div>
     }
 
-    if (Model.Error != string.Empty)
+    if (Model.Errors.Any())
     {
         <div class="alert alert-danger" role="alert">
-            Errors occured while trying to generate Auth Tokens <br>
-            @Model.Error
+            Errors occured:
+            @{
+                foreach (var item in Model.Errors)
+                {
+                    <span>@item</span>
+                    <br />
+                }
+            }
         </div>
     }
 }
@@ -28,22 +34,39 @@
         <label class="control-label">Status:</label>
     </div>
     @{
-        if (Model.IsTokenValid)
+        if (Model.ResrouceErrors.Any())
         {
-            <div class="col-md-10">
-                <span class="alert-success">Valid Auth Tokens</span>
+            <div class="col-md-3">
+                <span class="alert-warning">Errors with required resources:</span>
             </div>
-        }
-        else
+            <div class="col-md-6">
+            @{
+                foreach (var item in Model.ResrouceErrors)
+                    {
+                        <span class="alert-warning">@item</span>
+                        <br />
+                    }
+            }
+            </div>
+        } else
         {
-            <div class="col-md-2">
-                <span class="alert-warning">Invalid Auth Tokens</span>
-            </div>
-            <div class="col-md-2">
-                <a class="btn btn-primary" href=@Model.CodeLink>
-                    Generate New Tokens
-                </a>
-            </div>            
+            if (Model.IsTokenValid)
+            {
+                <div class="col-md-10">
+                    <span class="alert-success">Valid Auth Tokens</span>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-2">
+                    <span class="alert-warning">Invalid Auth Tokens</span>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-primary" href=@Model.CodeLink>
+                        Generate New Tokens
+                    </a>
+                </div>
+            }
         }
     }
 </div>
