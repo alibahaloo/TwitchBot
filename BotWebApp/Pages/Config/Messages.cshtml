@@ -7,12 +7,20 @@
     if (Model.SuccessfulSave)
     {
         <div class="alert alert-success" role="alert">
-            Changes Successfully Saved!
+            Changes Saved Successfully!
         </div>
     }
 }
 <h1>Configurations - Messages</h1>
-<form method="post">
+<hr />
+<p>
+    These are the messages that bot emits in different situations.
+    The messages are meant for Twitch Chat, so it can accept emotes.
+    <br /> To reset a configuration, simply save that item as blank and system will restore it to the default value.
+    <br /> To reset all configurations, scroll down and click on "Reset to default values" button.
+</p>
+<hr />
+<form asp-page-handler="save" method="post">
     <h4>General</h4>
     <div class="row align-items-center">
         <div class="col-md-2">
@@ -62,7 +70,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
-          
+            <span style="font-style: italic;">{0}: User <br /> {1}: Point Amount</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.UserPointBalance("User",100)</span>
@@ -80,7 +88,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
-          
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.TransferPointsInvalidCommand("User")</span>
@@ -98,7 +106,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
-           
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.TransferPointsInvalidNumber("User")</span>
@@ -116,7 +124,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
-           
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.TransferPointsInvalidToSelf("User")</span>
@@ -134,7 +142,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
-            
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.TransferPointsInvalidNotEnoughPoints("User")</span>
@@ -152,7 +160,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
-            
+            <span style="font-style: italic;">{0}: User <br /> {1}: Receiver User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.TransferPointsSuccess("User",100,"Another-User")</span>
@@ -171,6 +179,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RaffleMaxTicketsBuy("User")</span>
@@ -188,6 +197,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Number of Tickets</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RaffleMaxTicketReached("User",10)</span>
@@ -205,6 +215,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Number of Tickets</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RaffleMaxTicketReached("User",10)</span>
@@ -230,7 +241,8 @@
     </div>
     <br />
     <div class="row align-items-center">
-        <div class="col-md-2">
+        <div class="col-md-2 font-italic">
+            <span style="font-style: italic;">{0}: Reward Amount <br /> {1}: Time Allowed <br /> {2}: Max Tickets Allowed <br /> {3}: Ticket Cost</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RaffleStartGame(100)</span>
@@ -248,6 +260,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RaffleStopGame("User", 100)</span>
@@ -274,6 +287,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RaffleNotEnoughPoints("User")</span>
@@ -291,7 +305,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
-
+            <span style="font-style: italic;">{0}: User <br /> {1}: Number of Tickets</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RaffleBuySuccess("User", 100)</span>
@@ -310,9 +324,10 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Duration</span>
         </div>
         <div class="col-md-10 border border-info">
-            <span>@await Model._botConfigurations.DailySpinNeedToWait("User", 100)</span>
+            <span>@await Model._botConfigurations.DailySpinNeedToWait("User", 1)</span>
         </div>
     </div>
     <br />
@@ -327,6 +342,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.DailySpinStartGame("User", 100)</span>
@@ -345,6 +361,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward <br /> {2}: Duration</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.BattleGenerateRandomTitle(0, 100)</span>
@@ -362,6 +379,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.BattleFirstPlayerJoined("User")</span>
@@ -379,6 +397,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.BattleAlreadyJoined("User")</span>
@@ -396,6 +415,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.BattleSecondPlayerJoined("User")</span>
@@ -413,6 +433,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.BattleBattleFinished("User", 100)</span>
@@ -464,6 +485,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.BattleGameStopYouWon("User", 100)</span>
@@ -499,6 +521,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: Random Title <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.FirstToWinGenerateRandomTitle(0,100)</span>
@@ -516,6 +539,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.FirstToWinGameStop("User",100)</span>
@@ -551,6 +575,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GamblePlayInvalidCommand("User")</span>
@@ -568,6 +593,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GamblePlayInvalidPercentageCommand("User")</span>
@@ -585,6 +611,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GamblePlayInvalidPercentageMoreThanHundred("User")</span>
@@ -602,6 +629,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GamblePlayInvalidNumberCommand("User")</span>
@@ -619,6 +647,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GamblePlayInvalidNegativeNumber("User")</span>
@@ -636,6 +665,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GamblePlayInvalidLessThanDefault("User")</span>
@@ -653,6 +683,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GamblePlayNotEnoughPoints("User")</span>
@@ -670,6 +701,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GambleLost("User",100)</span>
@@ -687,9 +719,101 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.GambleWon("User",100)</span>
+        </div>
+    </div>
+    <hr />
+    <h4>Play To Win</h4>
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Title</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="PlayToWinGenerateRandomTitle" class="form-control" rows="@Model.PlayToWinGenerateRandomTitle.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <span style="font-style: italic;">{0}: Random Game Title <br />{1}: Random Player <br /> {2}: Reward <br />{3}: Duration</span>
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.PlayToWinGenerateRandomTitle(0,0,10)</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Already In Game</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="PlayToWinAlreadyInGame" class="form-control" rows="@Model.PlayToWinAlreadyInGame.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.PlayToWinAlreadyInGame("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Player Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="PlayToWinJoined" class="form-control" rows="@Model.PlayToWinJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.PlayToWinJoined("User")</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">No One Joined</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="PlayToWinNoOneJoined" class="form-control" rows="@Model.PlayToWinNoOneJoined.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <span style="font-style: italic;"></span>
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.PlayToWinNoOneJoined()</span>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <label class="control-label">Game Finished</label>
+        </div>
+        <div class="col-md-10">
+            <textarea asp-for="PlayToWinStopGame" class="form-control" rows="@Model.PlayToWinStopGame.Split('\n').Length  - 1"> </textarea>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
+        </div>
+        <div class="col-md-10 border border-info">
+            <span>@await Model._botConfigurations.PlayToWinStopGame("User", 100)</span>
         </div>
     </div>
     <hr />
@@ -705,6 +829,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RandomDropOwnerGrabbed("User")</span>
@@ -722,6 +847,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward <br />{2}: Owner</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RandomDropChatterGrabbed("User",100, "Owner")</span>
@@ -756,6 +882,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RandomDropStartGame("User", 100)</span>
@@ -774,6 +901,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceInvalidCommand("User")</span>
@@ -791,6 +919,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceInvalidCommandNumber("User")</span>
@@ -808,6 +937,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceInvalidCommandLessThanDefault("User")</span>
@@ -825,6 +955,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceNotEnoughPoints("User")</span>
@@ -842,6 +973,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceInvalidCommandAgainstYourself("User")</span>
@@ -859,6 +991,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Opponent</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceNotEnoughPointOpponent("User","Opponent")</span>
@@ -876,6 +1009,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1}: Opponent <br />{2}:Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceGameStartWithOpponent("User","Opponent",100)</span>
@@ -893,6 +1027,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {2}: Reward</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceGameStartOpen("User",100)</span>
@@ -910,6 +1045,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RolLDicePlayAgainstYourself("User")</span>
@@ -927,6 +1063,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RolLDiceNotTheSelectedOpponent("User")</span>
@@ -944,6 +1081,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDicNotEnoughPoint("User")</span>
@@ -978,6 +1116,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: Player A <br /> {1}: Dice Value <br /> {2}: Player B <br />{3}: Dice Value <br /> {4}: Winner Player <br /> {5}: Winner Dice</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RollDiceStopGame("User-A",4,"User-B",2,"User-A",2)</span>
@@ -995,6 +1134,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: Player <br /> {1}: Dice Value <br />{2}: Dice Value <br /> {3}: Winner</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.RolLDiceStopGameWithBot("User-A",4,2,"User-A")</span>
@@ -1030,6 +1170,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.SlotsNotEnoughPoints("User")</span>
@@ -1047,6 +1188,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1,2,3}: Image</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.SlotsWin("User","X","X","X")</span>
@@ -1064,6 +1206,7 @@
     <br />
     <div class="row align-items-center">
         <div class="col-md-2">
+            <span style="font-style: italic;">{0}: User <br /> {1,2,3}: Image</span>
         </div>
         <div class="col-md-10 border border-info">
             <span>@await Model._botConfigurations.SlotsLost("User","X","Y","X")</span>
@@ -1071,6 +1214,19 @@
     </div>
     <hr />
     <div class="row align-items-center">
-        <input type="submit" class="btn btn-primary" value="Submit Changes">
+        <div class="col-md-4">
+            <input type="submit" class="btn btn-primary" value="Submit Changes">
+        </div>
     </div>
+</form>
+<br />
+<form asp-page-handler="reset" method="post">
+    <div class="row align-items-center">
+        <div class="col-md-2">
+           <button class="btn btn-warning">Reset to default values</button>
+        </div>
+        <div class="col-md-4">
+            <span class="text-danger">Warning: This will reset all values back to their defaults</span>
+        </div>
+    </div>  
 </form>

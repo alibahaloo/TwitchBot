@@ -6,6 +6,49 @@ namespace TwitchBot.Pages.Config
 {
     public class VariablesModel : PageModel
     {
+        public enum Configurations
+        {
+            RaffleStopMins,
+            RaffleTicketCost,
+            RaffleMaxTicketAllowed,
+            RaffleMinReward,
+            RaffleMaxReward,
+            PlayToWinStopMins,
+            PlayToWinMinReward,
+            PlayToWinMaxReward,
+            PlayToWinGames,
+            BattleStopMins,
+            BattleMinReward,
+            BattleMaxReward,
+            BattleGames,
+            RandomDropStopMins,
+            RandomDropMinPoints,
+            RandomDropMaxPercentage,
+            AvoidedChatters,
+            FirstToWinStopMins,
+            FirstToWinMinReward,
+            FirstToWinMaxReward,
+            FirstToWinGames,
+            GambleDefaultAmount,
+            SlotsEntryAmount,
+            SlotsReward,
+            SlotsIcons,
+            DailySpinMaxReward,
+            DailySpinMinReward,
+            BotMods,
+            GlobalGamesTimer,
+            PlayerNames,
+            BotGames,
+            LoyaltyPointPerTick,
+            LoyaltyTickTimer,
+            RollADiceStopTimer,
+            RandomAIQuoteTimer,
+            AIQuotes,
+        }
+
+
+        private readonly ILogger<VariablesModel> _logger;
+
         public bool SuccessfulSave = false;
 
         private readonly BotConfigurations _botConfigurations;
@@ -56,9 +99,10 @@ namespace TwitchBot.Pages.Config
 
         public int RandomAIQuoteTimer = 0;
         public string AIQuotes = string.Empty;
-        public VariablesModel(BotConfigurations botConfigurations)
+        public VariablesModel(BotConfigurations botConfigurations, ILogger<VariablesModel> logger)
         {
             _botConfigurations = botConfigurations;
+            _logger = logger;
         }
         private async Task LoadData()
         {
@@ -110,26 +154,38 @@ namespace TwitchBot.Pages.Config
             RandomAIQuoteTimer = await _botConfigurations.RandomAIQuoteTimer();
             AIQuotes = String.Join("\r\n", await _botConfigurations.AIQuotes());
         }
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPostSave()
         {
-            var postData = Request.Form.Keys;
-            foreach (var key in postData)
+            foreach (var key in Enum.GetNames(typeof(Configurations)))
             {
                 var _value = Request.Form[key].ToString().Trim();
-
-                if ((key == "__Invariant") || (key == "__RequestVerificationToken") || (_value == ""))
-                    continue;
-
                 await _botConfigurations.SaveBotConfig(key, _value);
             }
+
             SuccessfulSave = true;
 
+            await LoadData();
+            return Page();
+        }
+        public async Task<IActionResult> OnPostReset()
+        {
+            foreach (var key in Enum.GetNames(typeof(Configurations)))
+            {
+                await _botConfigurations.DeleteBotConfig(key);
+            }
+            SuccessfulSave = true;
             await LoadData();
             return Page();
         }
         public async Task OnGet()
         {
             await LoadData();
+        }
+
+        public void OnPostShutdown()
+        {
+            _logger.LogWarning("Shutting down application via UI");
+            System.Environment.Exit(1);
         }
     }
 }

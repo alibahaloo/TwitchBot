@@ -7,15 +7,28 @@
     if (Model.SuccessfulSave)
     {
         <div class="alert alert-success" role="alert">
-            Changes Successfully Saved! 
+            Changes Saved Successfully!
         </div>
         <div class="alert alert-warning" role="alert">
             You must restart the app for the new configurations to take effect.
         </div>
+        <form asp-page-handler="shutdown" method="post">
+            <button class="btn btn-warning">Click here to shutdown application</button>
+        </form>
+        <hr />
     }
 }
 <h1>Configurations - Variables</h1>
-<form method="post">
+<hr />
+<p>
+    These are variable configurations used by bot in various games and services.
+    Use "New Line" to add options where applicable.
+    <br /> To reset a configuration, simply save that item as blank and system will restore it to the default value.
+    <br /> To reset all configurations, scroll down and click on "Reset to default values" button.
+    <br />NOTE: Changes in these configurations require bot to restart.
+</p>
+<hr />
+<form asp-page-handler="save" method="post">
     <h4>General</h4>
     <div class="row align-items-center">
         <div class="col-md-1">
@@ -308,6 +321,19 @@
     </div>
     <hr />
     <div class="row align-items-center">
-        <input type="submit" class="btn btn-primary" value="Submit Changes">
+        <div class="col-md-4">
+            <input type="submit" class="btn btn-primary" value="Submit Changes">
+        </div>
+    </div>
+</form>
+<br />
+<form asp-page-handler="reset" method="post">
+    <div class="row align-items-center">
+        <div class="col-md-2">
+            <button class="btn btn-warning">Reset to default values</button>
+        </div>
+        <div class="col-md-4">
+            <span class="text-danger">Warning: This will reset all values back to their defaults</span>
+        </div>
     </div>
 </form>

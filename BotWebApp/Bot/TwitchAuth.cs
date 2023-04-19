@@ -92,7 +92,7 @@ namespace TwitchBot.Bot
 
             var httpResponse = await httpClient.PostAsync(BotConfigurations.TwitchTokenEndpoint, requestContent);
             var responseContent = await httpResponse.Content.ReadAsStringAsync();
-            var body = JsonConvert.DeserializeObject<TokenDTO>(responseContent.ToString());
+            var body = JsonConvert.DeserializeObject<TwitchTokenDTO>(responseContent.ToString());
 
             if (body == null)
             {
@@ -140,7 +140,7 @@ namespace TwitchBot.Bot
 
             var httpResponse = await httpClient.PostAsync(BotConfigurations.TwitchTokenEndpoint, requestContent);
             var responseContent = await httpResponse.Content.ReadAsStringAsync();
-            var body = JsonConvert.DeserializeObject<TokenDTO>(responseContent.ToString());
+            var body = JsonConvert.DeserializeObject<TwitchTokenDTO>(responseContent.ToString());
 
             if (body == null)
             {

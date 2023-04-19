@@ -7,7 +7,7 @@
     if (Model.CodeCaptured)
     {
         <div class="alert alert-success" role="alert">
-            Code captured -- Auth Tokens Saved.
+            Code captured successfully -- Auth Tokens Saved.
         </div>
     }
 
@@ -18,30 +18,46 @@
             @{
                 foreach (var item in Model.Errors)
                 {
-                    <span>@item</span>
                     <br />
+                    @item
                 }
             }
         </div>
     }
+
+    if (Model.ResourceErrors.Any())
+    {
+        <div class="alert alert-danger" role="alert">
+            There are errors with required resources:
+            @{
+                foreach (var item in Model.ResourceErrors)
+                {
+                    <br />
+                    @item
+                }
+            }
+        </div>
+    }
+
 }
 <h1>Configurations - Auth Tokens</h1>
+<hr />
 <p>The bot service requires <a href="https://dev.twitch.tv/docs/authentication/#user-access-tokens">User Access Token</a> from Twitch to perform its functionalities.</p>
-<p>Use this page to check the current status of Bot's Auth Tokens and generate new ones if needed</p>
+<p>Use this page to check the current status of Bot's Auth Tokens and generate new ones if needed.</p>
 <hr />
 <div class="row align-items-center">
     <div class="col-md-1">
         <label class="control-label">Status:</label>
     </div>
     @{
-        if (Model.ResrouceErrors.Any())
+        if (Model.ResourceErrors.Any())
         {
             <div class="col-md-3">
                 <span class="alert-warning">Errors with required resources:</span>
             </div>
             <div class="col-md-6">
             @{
-                foreach (var item in Model.ResrouceErrors)
+                foreach (var item in Model.ResourceErrors)
                     {
                         <span class="alert-warning">@item</span>
                         <br />

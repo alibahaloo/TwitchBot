@@ -10,7 +10,7 @@ namespace TwitchBot.Pages.Config
         public bool CodeCaptured { get; set; } = false;
         public string CodeLink = $"https://id.twitch.tv/oauth2/authorize?response_type=code&client_id={TwitchInfo.client_id}&redirect_uri={TwitchInfo.redirect_uri}&scope={TwitchInfo.scope}&state=c3ab8aa609ea11e793ae92361f002671";
         public List<string> Errors { get; set; } = new List<string> { };
-        public List<string> ResrouceErrors { get; set; } = new List<string> { };
+        public List<string> ResourceErrors { get; set; } = new List<string> { };
         public CodeModel(TwitchAuth twitchAuth)
         {
             _twitchAuth = twitchAuth;
@@ -18,11 +18,11 @@ namespace TwitchBot.Pages.Config
 
         public async Task<PageResult> OnGet(string code)
         {
-            if (TwitchInfo.client_id == string.Empty) { ResrouceErrors.Add("Error: Missing client_id"); }
-            if (TwitchInfo.client_secret == string.Empty) { ResrouceErrors.Add("Error: Missing client_secret"); }
-            if (TwitchInfo.redirect_uri == string.Empty) { ResrouceErrors.Add("Error: Missing redirect_uri"); }
+            if (TwitchInfo.client_id == string.Empty) { ResourceErrors.Add("Error: Missing client_id"); }
+            if (TwitchInfo.client_secret == string.Empty) { ResourceErrors.Add("Error: Missing client_secret"); }
+            if (TwitchInfo.redirect_uri == string.Empty) { ResourceErrors.Add("Error: Missing redirect_uri"); }
 
-            if (ResrouceErrors.Any()) return Page();
+            if (ResourceErrors.Any()) return Page();
 
             string referrer = Request.Headers.Referer.ToString();
 

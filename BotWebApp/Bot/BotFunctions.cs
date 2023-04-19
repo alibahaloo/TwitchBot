@@ -140,7 +140,7 @@ namespace TwitchBot.Bot
             {
                 response.EnsureSuccessStatusCode();
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var body = JsonConvert.DeserializeObject<TwitchChattersDTO>(responseContent.ToString());
+                var body = JsonConvert.DeserializeObject<TwitchChatDTO>(responseContent.ToString());
 
                 if (body != null)
                 {

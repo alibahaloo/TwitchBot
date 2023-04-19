@@ -5,6 +5,78 @@ namespace TwitchBot.Pages.Config
 {
     public class MessagesModel : PageModel
     {
+        public enum Configurations
+        {
+            CantStartNewGame,
+            NoGameRunning,
+            DiscordChannel,
+            CommandsList,
+            UserPointBalance,
+            TransferPointsInvalidCommand,
+            TransferPointsInvalidNumber,
+            TransferPointsInvalidToSelf,
+            TransferPointsInvalidNotEnoughPoints,
+            TransferPointsSuccess,
+            RaffleMaxTicketsBuy,
+            RaffleMaxTicketReached,
+            RaffleNoOneJoined,
+            RaffleStartGame,
+            RaffleStopGame,
+            RaffleInvalidBuyCommand,
+            RaffleNotEnoughPoints,
+            RaffleBuySuccess,
+            DailySpinNeedToWait,
+            DailySpinStartGame,
+            BattleGenerateRandomTitle,
+            BattleFirstPlayerJoined,
+            BattleAlreadyJoined,
+            BattleSecondPlayerJoined,
+            BattleBattleFinished,
+            BattleNoOneJoined,
+            BattleNoSecondPlayerJoined,
+            BattleGameStopYouWon,
+            BattleGameStopBotWon,
+            FirstToWinGenerateRandomTitle,
+            FirstToWinGameStop,
+            FirstToWinNoOneJoined,
+            GamblePlayInvalidCommand,
+            GamblePlayInvalidPercentageCommand,
+            GamblePlayInvalidPercentageMoreThanHundred,
+            GamblePlayInvalidNumberCommand,
+            GamblePlayInvalidNegativeNumber,
+            GamblePlayInvalidLessThanDefault,
+            GamblePlayNotEnoughPoints,
+            GambleLost,
+            GambleWon,
+            PlayToWinGenerateRandomTitle,
+            PlayToWinAlreadyInGame,
+            PlayToWinJoined,
+            PlayToWinNoOneJoined,
+            PlayToWinStopGame,
+            RandomDropOwnerGrabbed,
+            RandomDropChatterGrabbed,
+            RandomDropNoOneJoined,
+            RandomDropStartGame,
+            RollDiceInvalidCommand,
+            RollDiceInvalidCommandNumber,
+            RollDiceInvalidCommandLessThanDefault,
+            RollDiceNotEnoughPoints,
+            RollDiceInvalidCommandAgainstYourself,
+            RollDiceNotEnoughPointOpponent,
+            RollDiceGameStartWithOpponent,
+            RollDiceGameStartOpen,
+            RolLDicePlayAgainstYourself,
+            RolLDiceNotTheSelectedOpponent,
+            RollDicNotEnoughPoint,
+            RollDiceDraw,
+            RollDiceStopGame,
+            RolLDiceStopGameWithBot,
+            RollDiceNoPlayerJoined,
+            SlotsNotEnoughPoints,
+            SlotsWin,
+            SlotsLost,
+        }
+
         public bool SuccessfulSave = false;
 
         public readonly BotConfigurations _botConfigurations;
@@ -172,20 +244,27 @@ namespace TwitchBot.Pages.Config
             SlotsWin = await _botConfigurations.SlotsWin("", "", "", "", true);
             SlotsLost = await _botConfigurations.SlotsLost("", "", "", "", true);
         }
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPostSave()
         {
-            var postData = Request.Form.Keys;
-            foreach (var key in postData)
+            foreach (var key in Enum.GetNames(typeof(Configurations)))
             {
                 var _value = Request.Form[key].ToString().Trim();
-
-                if ((key == "__Invariant") || (key == "__RequestVerificationToken") || (_value == ""))
-                    continue;
-
                 await _botConfigurations.SaveBotConfig(key, _value);
             }
+
             SuccessfulSave = true;
 
+            await LoadData();
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostReset()
+        {
+            foreach (var key in Enum.GetNames(typeof(Configurations)))
+            {
+                await _botConfigurations.DeleteBotConfig(key);
+            }
+            SuccessfulSave = true;
             await LoadData();
             return Page();
         }

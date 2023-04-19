@@ -19,19 +19,37 @@ namespace TwitchBot.Bot
             _context = _serviceProvider.GetRequiredService<ApplicationDbContext>();
         }
 
+        public async Task DeleteBotConfig(string configName)
+        {
+            var config = _context.BotConfigs.Where(x => x.Name == configName).First();
+            if (config != null)
+            {
+                _context.Remove(config);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task SaveBotConfig(string configName, string configValue)
         {
             var config = await _context.BotConfigs.Where(x => x.Name == configName).FirstOrDefaultAsync();
-            if (config == null)
+
+            //Check if value is empty, if so delete the entry so "default" is read
+            if (configValue == string.Empty)
             {
-                BotConfig newConfig = new() { Name = configName, Value = configValue };
-                await _context.AddAsync(newConfig);
-            }
-            else
+                await DeleteBotConfig(configName);
+            } else
             {
-                config.Value = configValue;
+                if (config == null)
+                {
+                    BotConfig newConfig = new() { Name = configName, Value = configValue };
+                    await _context.AddAsync(newConfig);
+                }
+                else
+                {
+                    config.Value = configValue;
+                }
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
         }
 
         #region Variables
