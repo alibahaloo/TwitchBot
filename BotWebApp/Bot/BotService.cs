@@ -17,23 +17,23 @@ namespace TwitchBot.Bot
     public class BotService : BackgroundService
     {
         //Loyalty Points
-        private readonly System.Timers.Timer _loyaltyPointTickTimer;
+        private System.Timers.Timer _loyaltyPointTickTimer = new();
         //Games Timer
-        private readonly System.Timers.Timer _globalGamesStartTimer;
+        private System.Timers.Timer _globalGamesStartTimer = new();
         //Raffle
-        private readonly System.Timers.Timer _raffleStopTimer;
+        private System.Timers.Timer _raffleStopTimer = new();
         //RandomDrop
-        private readonly System.Timers.Timer _randomDropStopTimer;
+        private System.Timers.Timer _randomDropStopTimer = new();
         //PlayToWin
-        private readonly System.Timers.Timer _playToWinStopTimer;
+        private System.Timers.Timer _playToWinStopTimer = new();
         //FirstToWin
-        private readonly System.Timers.Timer _firstToWinStopTimer;
+        private System.Timers.Timer _firstToWinStopTimer = new();
         //Roll-A-Dice
-        private readonly System.Timers.Timer _rollDiceStopTimer;
+        private System.Timers.Timer _rollDiceStopTimer = new();
         //Two-Player Battle
-        private readonly System.Timers.Timer _battleStopTimer;
+        private System.Timers.Timer _battleStopTimer = new();
         //AI Random Quote
-        private readonly System.Timers.Timer _randomAIQuoteTimer;
+        private System.Timers.Timer _randomAIQuoteTimer = new();
 
         private readonly ILogger<BotService> _logger;
         private readonly BotConfigurations _botConfigurations;
@@ -49,9 +49,9 @@ namespace TwitchBot.Bot
         private readonly BattleGame _battleGame;
 
         //Used for communicating with Twitch chat
-        readonly TwitchClient client;
+        private readonly TwitchClient client;
         //Used for listening to Twitch chat events
-        readonly TwitchPubSub PubSub;
+        private readonly TwitchPubSub PubSub;
 
         public BotService(ILogger<BotService> logger,
                    BotFunctions botFunctions,
@@ -79,31 +79,8 @@ namespace TwitchBot.Bot
             _battleGame = battleGame;
             _botConfigurations = botConfigurations;
 
-            //First thing to check is to see if Bot has the required resources
+            //Check for required resources
             CheckResourceFile();
-
-            //Timers
-            _loyaltyPointTickTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.LoyaltyTickTimer().Result).TotalMilliseconds);
-            _globalGamesStartTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.GlobalGamesTimer().Result).TotalMilliseconds);
-            _raffleStopTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.RaffleStopMins().Result).TotalMilliseconds);
-            _randomDropStopTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.RandomDropStopMins().Result).TotalMilliseconds);
-            _playToWinStopTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.PlayToWinStopMins().Result).TotalMilliseconds);
-            _firstToWinStopTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.FirstToWinStopMins().Result).TotalMilliseconds);
-            _rollDiceStopTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.RollADiceStopTimer().Result).TotalMilliseconds);
-            _battleStopTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.BattleStopMins().Result).TotalMilliseconds);
-            _randomAIQuoteTimer =
-                new(TimeSpan.FromMinutes(_botConfigurations.RandomAIQuoteTimer().Result).TotalMilliseconds);
-
-            //Setting timers
-            InitTimers();
 
             //Setting up Twitch Client
             ConnectionCredentials credentials = new(TwitchInfo.botUsername, TwitchInfo.BotToken);
@@ -123,9 +100,6 @@ namespace TwitchBot.Bot
             client.OnChatCommandReceived += Client_OnChatCommandReceived;
             client.OnConnected += Client_OnConnected;
 
-            //Connect the Client to channel
-            client.Connect();
-
             //Set up Twitch PubSub
             PubSub = new TwitchPubSub();
             PubSub.OnListenResponse += OnListenResponse;
@@ -138,9 +112,6 @@ namespace TwitchBot.Bot
 
             PubSub.OnViewCount += PubSub_OnViewCount;
             PubSub.ListenToVideoPlayback(TwitchInfo.ChannelID);
-
-            //Connect to pubsub
-            PubSub.Connect();
         }
         private void CheckResourceFile()
         {
@@ -180,19 +151,36 @@ namespace TwitchBot.Bot
         }
 
         #region Timers and Elapsed Events
-        private void InitTimers()
+        private async Task InitTimers()
         {
-            #region Loyalty Point Timers
+            _loyaltyPointTickTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.LoyaltyTickTimer()).TotalMilliseconds);
+            _globalGamesStartTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.GlobalGamesTimer()).TotalMilliseconds);
+            _raffleStopTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.RaffleStopMins()).TotalMilliseconds);
+            _randomDropStopTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.RandomDropStopMins()).TotalMilliseconds);
+            _playToWinStopTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.PlayToWinStopMins()).TotalMilliseconds);
+            _firstToWinStopTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.FirstToWinStopMins()).TotalMilliseconds);
+            _rollDiceStopTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.RollADiceStopTimer()).TotalMilliseconds);
+            _battleStopTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.BattleStopMins()).TotalMilliseconds);
+            _randomAIQuoteTimer =
+                new(TimeSpan.FromMinutes(await _botConfigurations.RandomAIQuoteTimer()).TotalMilliseconds);
+
+            #region Timers
             _loyaltyPointTickTimer.Elapsed += LoyaltyPointTickTimer_Elapsed;
             _loyaltyPointTickTimer.AutoReset = true;
             _loyaltyPointTickTimer.Enabled = true;
-            #endregion
 
             _randomAIQuoteTimer.Elapsed += RandomAIQuoteTimer_Elapsed;
             _randomAIQuoteTimer.AutoReset = true;
             _randomAIQuoteTimer.Enabled = true;
 
-            #region Game Timers
             _globalGamesStartTimer.Elapsed += GlobalGamesStartTimer_Elapsed;
             _globalGamesStartTimer.AutoReset = true;
             _globalGamesStartTimer.Enabled = true;
@@ -381,22 +369,18 @@ namespace TwitchBot.Bot
 
             if (result != string.Empty) client.SendMessage(TwitchInfo.ChannelName, result);
         }
-
         private void Client_OnError(object? sender, OnErrorEventArgs e)
         {
             _logger.LogError(BotConfigurations.Log("Client_OnError", e.Exception.Message));
         }
-
         private void Client_OnLog(object? sender, TwitchLib.Client.Events.OnLogArgs e)
         {
             _logger.LogInformation(BotConfigurations.Log("Client_OnLog", $"{e.BotUsername} : {e.Data}"));
         }
-
         private void Client_OnConnected(object? sender, OnConnectedArgs e)
         {
             _logger.LogInformation(BotConfigurations.Log("Client_OnConnected", $"Connected to {e.AutoJoinChannel}"));
         }
-
         private void Client_OnJoinedChannel(object? sender, OnJoinedChannelArgs e)
         {
             _logger.LogInformation(BotConfigurations.Log("Client_OnJoinedChannel", $"Joined Channel {TwitchInfo.ChannelName}"));
@@ -408,18 +392,15 @@ namespace TwitchBot.Bot
         {
             _logger.LogError(BotConfigurations.Log("OnPubSubServiceError", $"{e.Exception.Message}"));
         }
-
         private void OnPubSubServiceClosed(object? sender, EventArgs e)
         {
             _logger.LogInformation(BotConfigurations.Log("OnPubSubServiceClosed", "Connection closed to pubsub server."));
         }
-
         private void OnPubSubServiceConnected(object? sender, EventArgs e)
         {
             PubSub.SendTopics(TwitchInfo.BotToken);
             _logger.LogInformation(BotConfigurations.Log("OnPubSubServiceConnected", "Connected to pubsub server"));
         }
-
         private void OnListenResponse(object? sender, OnListenResponseArgs e)
         {
             if (!e.Successful)
@@ -427,26 +408,34 @@ namespace TwitchBot.Bot
                 _logger.LogError(BotConfigurations.Log("OnListenResponse", $"Failed to listen! Response{e.Response}"));
             }
         }
-
         private void PubSub_OnFollow(object? sender, OnFollowArgs e)
         {
             client.SendMessage(TwitchInfo.ChannelName, $"Thank you for following @{e.Username} -- Hope you enjoy the stream <3");
             _logger.LogInformation(BotConfigurations.Log("PubSub_OnFollow", $"{e.Username} is now following."));
         }
-
         private void PubSub_OnViewCount(object? sender, OnViewCountArgs e)
         {
             _logger.LogInformation(BotConfigurations.Log("PubSub_OnViewCount", $"Current viewers: {e.Viewers}"));
         }
-
         #endregion
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            /*
-            while (!stoppingToken.IsCancellationRequested)
-            {
-            }
-            */
+            _logger.LogInformation("Bot Hosted Service is starting.");
+            //Initialize Timed Events
+            await InitTimers();
+            //Connect to Twitch
+            client.Connect();
+            PubSub.Connect();
+
+            client.SendMessage(TwitchInfo.ChannelName, "Bot service has started -- Hi Chat");
+        }
+
+        public override Task StopAsync(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation("Bot Hosted Service is stopping.");
+            client.SendMessage(TwitchInfo.ChannelName, "Bot service is shutting down -- Bye Bye");
+
+            return Task.CompletedTask;
         }
     }
 }
