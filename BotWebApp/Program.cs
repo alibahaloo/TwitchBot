@@ -9,6 +9,38 @@ var logger = LoggerFactory.Create(config =>
     config.AddConsole();
 }).CreateLogger("Program");
 
+bool runAsConfigure;
+bool argsError;
+//Check for Arguments
+if (args.Length > 0 && args.Length <2)
+{
+    switch (args[0])
+    {
+        case "configure":
+            runAsConfigure = true;
+            argsError = false;
+            break;
+        default:
+            runAsConfigure = false;
+            argsError = true;
+            break;
+    }
+} else if (args.Length == 0)
+{
+    runAsConfigure = false;
+    argsError = false;
+} else 
+{
+    runAsConfigure = false;
+    argsError = true;
+}
+
+if (argsError)
+{
+    logger.LogCritical("Invalid number of arguments. To run the application fully with bot service, do not use any arguments. To run the application in 'Configure' mode (UI only without bot service), pass `configure` as an argument.");
+    System.Environment.Exit(1);
+}
+
 //Run the latest db migrations before starting the app
 using (var context = new ApplicationDbContext())
 {
@@ -51,9 +83,11 @@ using (var context = new ApplicationDbContext())
     }
 }
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-//Adding DBcontext as tranisent, it's needed for multi-threading
+//Adding DBcontext as transient, it's needed for multi-threading
 builder.Services.AddTransient<ApplicationDbContext>();
 //Adding necessary services
 builder.Services.AddTransient<BotFunctions>();
@@ -61,7 +95,7 @@ builder.Services.AddTransient<TwitchAuth>();
 builder.Services.AddTransient<BotConfigurations>();
 
 //Checking for program arguments
-if ((args.Length > 0) && (args[0] == "configure"))
+if (runAsConfigure)
 {
     logger.LogWarning("Running UI only without Bot service - For configuration purposes");
 }

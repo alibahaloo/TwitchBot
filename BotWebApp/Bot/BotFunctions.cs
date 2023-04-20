@@ -19,7 +19,7 @@ namespace TwitchBot.Bot
             _botConfigurations = botConfiguration;
         }
 
-        //Used to generate random number between two ints
+        //Used to generate random number between two integers
         public static int RndInt(int min, int max)
         {
             int value;

@@ -18,7 +18,6 @@ namespace TwitchBot.Bot
             _serviceProvider = serviceProvider;
             _context = _serviceProvider.GetRequiredService<ApplicationDbContext>();
         }
-
         public async Task DeleteBotConfig(string configName)
         {
             var config = _context.BotConfigs.Where(x => x.Name == configName).First();
@@ -28,7 +27,6 @@ namespace TwitchBot.Bot
                 await _context.SaveChangesAsync();
             }
         }
-
         public async Task SaveBotConfig(string configName, string configValue)
         {
             var config = await _context.BotConfigs.Where(x => x.Name == configName).FirstOrDefaultAsync();
@@ -553,7 +551,6 @@ namespace TwitchBot.Bot
         #endregion
 
         #region Messages
-
         public static string Log(string method, string userConfig)
         {
             return $"{DateTime.Now} | [{method}]: {userConfig}";
@@ -1169,7 +1166,6 @@ namespace TwitchBot.Bot
             }
 
         }
-
 
         public async Task<string> SlotsNotEnoughPoints(string chatter, bool config = false)
         {

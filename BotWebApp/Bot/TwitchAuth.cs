@@ -34,7 +34,7 @@ namespace TwitchBot.Bot
             }
 
             //Validate the accessToken
-            if (await ValidateAccessToken(record.AccessToken)) //return record.AccessToken;
+            if (await ValidateAccessToken(record.AccessToken))
             {
                 response.Result = record.AccessToken;
             } else
@@ -72,7 +72,7 @@ namespace TwitchBot.Bot
         {
             Response response = new();
 
-            //Check for resrouces
+            //Check for resources
             if (TwitchInfo.client_id == string.Empty) response.Errors.Add("Error: Missing client_id");
             if (TwitchInfo.client_secret == string.Empty) response.Errors.Add("Error: Missing client_secret");
             if (TwitchInfo.redirect_uri == string.Empty) response.Errors.Add("Error: Missing redirect_uri");
@@ -122,7 +122,7 @@ namespace TwitchBot.Bot
         {
             Response response = new();
 
-            //Check for resrouces
+            //Check for resources
             if (TwitchInfo.client_id == string.Empty) response.Errors.Add("Error: Missing client_id") ;
             if (TwitchInfo.client_secret == string.Empty) response.Errors.Add("Error: Missing client_secret");
 
