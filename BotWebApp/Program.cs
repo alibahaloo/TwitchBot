@@ -9,35 +9,35 @@ var logger = LoggerFactory.Create(config =>
     config.AddConsole();
 }).CreateLogger("Program");
 
-bool runAsConfigure;
-bool argsError;
+bool runHelp = false;
+bool runAsConfigure = false;
+bool argsError = false;
 //Check for Arguments
 if (args.Length > 0 && args.Length <2)
 {
     switch (args[0])
     {
+        case "help":
+            runHelp = true;
+            break;
         case "configure":
             runAsConfigure = true;
-            argsError = false;
             break;
         default:
-            runAsConfigure = false;
             argsError = true;
             break;
     }
-} else if (args.Length == 0)
+} else if (args.Length != 0)
 {
-    runAsConfigure = false;
-    argsError = false;
-} else 
-{
-    runAsConfigure = false;
     argsError = true;
 }
 
-if (argsError)
+if (argsError || runHelp)
 {
-    logger.LogCritical("Invalid number of arguments. To run the application fully with bot service, do not use any arguments. To run the application in 'Configure' mode (UI only without bot service), pass `configure` as an argument.");
+    string helpMsg = " To run the application fully with bot service, do not use any arguments. To run the application in 'Configure' mode (UI only without bot service), pass `configure` as an argument.";
+    if (argsError) helpMsg = "Invalid arguments." + helpMsg;
+
+    logger.LogCritical(helpMsg);
     System.Environment.Exit(1);
 }
 
@@ -83,8 +83,7 @@ using (var context = new ApplicationDbContext())
     }
 }
 
-
-
+//Start building the app
 var builder = WebApplication.CreateBuilder(args);
 
 //Adding DBcontext as transient, it's needed for multi-threading
